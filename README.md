@@ -1,156 +1,60 @@
-# Director AI V1
+# Director AI V2
 
-A one-day MVP for converting a **public YouTube video up to 2 minutes** into a
-director-level prompt package.
+Updated version matching the current flat GitHub repository structure.
 
-## Included
+## Changes
 
-- Luxury dark cinematic frontend
-- Public YouTube URL input
-- Gemini multimodal video + audio analysis
-- Scene timestamps
-- Visual prompt
-- Camera/lens prompt
-- Lighting/color prompt
-- Sound design
-- Voice-over direction
-- Scene recreation prompt
-- Master director prompt
-- Copy + TXT download
-- Left/right/mid/bottom sponsored placements
-- 5 Smartlinks supplied for the project
-- One rotating Smartlink opens when a **new URL** is analyzed
+- Left desktop ad: 300x250
+- Right desktop ad: 300x250
+- Mid ad: Native 4:1
+- Bottom ad: 320x50
+- Popunder integrated
+- Social Bar integrated
+- Per-field Copy buttons removed
+- One Copy Scene button per timeframe
+- Copy All + TXT download retained
+- Output sequence per timeframe:
+  1. Detailed Image Prompt
+  2. Detailed Visual Direction
+  3. Camera & Lens
+  4. Lighting & Color
+  5. Sound Design
+  6. Voice Over / Dialogue
+  7. Scene Recreation Prompt
+- Gemini prompt upgraded for substantially more detailed scene recreation
 
-## Why YouTube-only in V1
+## Current backend URL
 
-The current Gemini Video Understanding API accepts public YouTube URLs directly.
-That removes video downloading, FFmpeg and temporary storage from the first MVP.
-Private and unlisted videos are not supported by the YouTube-URL method.
+`config.js` is already configured for:
 
-## 1. Gemini key
+`https://director-ai-api-production.up.railway.app`
 
-Create a Gemini API key in Google AI Studio.
+## Updating the live site
 
-Copy:
+Replace the existing root files in the GitHub repository with these files and commit.
 
-```bash
-cp backend/.env.example backend/.env
-```
+Because Railway and Netlify are connected to the GitHub repository, both should
+redeploy automatically.
 
-Set:
+Check Railway first because `main.py` changed. Then check Netlify.
 
-```env
-GEMINI_API_KEY=...
-```
+## Environment variables on Railway
 
-Never put the Gemini key in `frontend/config.js`.
-
-## 2. Run backend locally for testing
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-export GEMINI_API_KEY="YOUR_KEY"
-uvicorn main:app --reload --port 8000
-```
-
-Windows PowerShell:
-
-```powershell
-cd backend
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-$env:GEMINI_API_KEY="YOUR_KEY"
-uvicorn main:app --reload --port 8000
-```
-
-## 3. Run frontend
-
-Serve `frontend/` using any static web server.
-
-Example:
-
-```bash
-python -m http.server 5500 --directory frontend
-```
-
-Open `http://localhost:5500`.
-
-## 4. Deploy backend to Render
-
-Use `render.yaml`, or create a Python Web Service:
-
-- Root directory: `backend`
-- Build: `pip install -r requirements.txt`
-- Start: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- Environment:
-  - `GEMINI_API_KEY`
-  - `GEMINI_MODEL=gemini-3.6-flash`
-  - `ALLOWED_ORIGINS=https://YOUR-SITE.netlify.app`
-
-After deployment, copy the backend URL.
-
-## 5. Deploy frontend to Netlify
-
-Before deploying, edit:
-
-`frontend/config.js`
-
-Change:
-
-```js
-apiBaseUrl: "http://localhost:8000"
-```
-
-to your deployed backend URL, for example:
-
-```js
-apiBaseUrl: "https://director-ai-api.example.com"
-```
-
-Deploy the `frontend` directory.
-
-## Ads / Smartlinks
-
-The five supplied Smartlinks are in `frontend/config.js`.
-
-Current behavior:
-
-- Left sponsored tile rotates through Smartlinks
-- Right sponsored tile rotates through Smartlinks
-- Mid sponsored tile rotates through Smartlinks
-- Bottom sponsored tile rotates through Smartlinks
-- A single rotating Smartlink opens in a new tab when the user analyzes a **new URL**
-- Re-clicking Analyze on the same URL does not open another sponsored tab
-
-This avoids firing multiple automatic popups from one user action. Replace these
-tiles later with proper banner/native ad-unit scripts when the ad network provides them.
-
-Always follow the ad network's current placement and traffic-quality rules.
-
-## Gemini notes
-
-`GEMINI_MODEL` is configurable so the model can be changed without editing code.
-
-The default is:
+Keep:
 
 ```env
+GEMINI_API_KEY=YOUR_SECRET_KEY
 GEMINI_MODEL=gemini-3.6-flash
+ALLOWED_ORIGINS=*
 ```
 
-Gemini's YouTube URL input is a preview capability and Google may change its
-availability or limits.
+## Ad note
 
-## Production hardening
+The supplied "350x50" code declares `width: 320`, so the actual integrated unit
+is 320x50.
 
-Before public launch, add:
+The 300x250 units are isolated inside iframes so the ad network's global
+`atOptions` variable does not collide between left and right placements.
 
-- rate limiting
-- abuse protection / CAPTCHA
-- request logging without storing private user content
-- server-side quota controls
-- ad-network policy review
-- privacy + terms pages
+Ad delivery is ultimately controlled by the ad network, browser privacy
+settings, extensions/ad blockers, geography, inventory and account approval.

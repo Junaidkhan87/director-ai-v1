@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Director AI converts short public YouTube videos into director-level recreation prompts.">
-  <title>Director AI</title>
+  <meta
+    name="description"
+    content="Director AI converts short public YouTube videos into detailed director-level recreation prompts."
+  >
+  <title>Director AI — Video to Director Prompt</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Adsterra/partner Popunder -->
+  <script src="https://grannyreproof.com/22/92/fa/2292fa06f78cb2c14fb52047a4ace3ae.js"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -31,24 +37,50 @@
     <span class="free-badge">2 MIN • FREE MVP</span>
   </header>
 
-  <main id="studio" class="shell layout">
-    <aside id="leftAd" class="side-ad ad-card">
-      <span class="ad-label">Sponsored</span>
-      <a class="smartlink-ad" data-slot="left" href="#" target="_blank" rel="noopener sponsored">
-        <strong>Discover</strong>
-        <small>Sponsored partner</small>
-      </a>
+  <main id="studio" class="shell page-grid">
+    <aside class="desktop-ad-column" aria-label="Sponsored advertisement">
+      <div class="ad-frame-card">
+        <span class="ad-label">Sponsored</span>
+        <iframe
+          class="ad-300x250"
+          title="Sponsored advertisement"
+          scrolling="no"
+          frameborder="0"
+          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+          srcdoc='
+            <!doctype html>
+            <html>
+              <body style="margin:0;overflow:hidden;background:transparent;">
+                <script>
+                  atOptions = {
+                    "key":"9101c92ede496081064ac3a397e8a1ff",
+                    "format":"iframe",
+                    "height":250,
+                    "width":300,
+                    "params":{}
+                  };
+                <\/script>
+                <script src="https://grannyreproof.com/9101c92ede496081064ac3a397e8a1ff/invoke.js"><\/script>
+              </body>
+            </html>'>
+        </iframe>
+      </div>
     </aside>
 
     <section class="main-column">
       <section class="hero">
         <div class="hero-copy">
           <span class="eyebrow"><i></i> CINEMATIC INTELLIGENCE</span>
-          <h1>Turn any short video into a <span>director-level prompt.</span></h1>
+
+          <h1>
+            Turn a short video into a
+            <span>director-level blueprint.</span>
+          </h1>
+
           <p>
-            Analyze visual language, camera movement, lens feel, lighting, sound,
-            voice-over and scene construction — then copy the master prompt into ChatGPT
-            to modify or rebuild the concept.
+            Paste a public YouTube URL and extract detailed image prompts,
+            visual direction, cinematography, lighting, sound, voice-over
+            and scene-by-scene recreation instructions.
           </p>
 
           <div class="url-panel">
@@ -57,13 +89,15 @@
                 <path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"></path>
                 <path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1"></path>
               </svg>
+
               <input
                 id="videoUrl"
                 type="url"
                 inputmode="url"
                 autocomplete="off"
                 placeholder="Paste a public YouTube video URL..."
-                aria-label="Video URL">
+                aria-label="Video URL"
+              >
             </div>
 
             <button id="analyzeBtn" type="button">
@@ -76,7 +110,7 @@
             <span>Public YouTube</span>
             <span>Up to 2 minutes</span>
             <span>No login</span>
-            <span>Director prompt pack</span>
+            <span>Detailed scene prompts</span>
           </div>
         </div>
 
@@ -95,6 +129,7 @@
                 <stop offset="100%" stop-color="#292f3b"/>
               </linearGradient>
             </defs>
+
             <circle class="orbit orbit-a" cx="310" cy="310" r="257"></circle>
             <circle class="orbit orbit-b" cx="310" cy="310" r="221"></circle>
             <circle cx="310" cy="310" r="177" fill="url(#rim)" stroke="#414958" stroke-width="5"></circle>
@@ -108,79 +143,134 @@
         </div>
       </section>
 
-      <div id="midAd" class="wide-ad ad-card">
+      <section class="native-ad-section" aria-label="Sponsored">
         <span class="ad-label">Sponsored</span>
-        <a class="smartlink-ad" data-slot="mid" href="#" target="_blank" rel="noopener sponsored">
-          <strong>Featured partner</strong>
-          <small>Advertisement</small>
-        </a>
-      </div>
+        <script
+          async="async"
+          data-cfasync="false"
+          src="https://grannyreproof.com/1bb273863bbb37ee663842108cf187b1/invoke.js">
+        </script>
+        <div id="container-1bb273863bbb37ee663842108cf187b1"></div>
+      </section>
 
       <section id="progress" class="progress-card hidden" aria-live="polite">
         <div class="progress-head">
           <div>
             <span class="spinner"></span>
-            <strong id="progressTitle">Analyzing video</strong>
+            <strong>Analyzing video</strong>
           </div>
           <span id="progressPercent">0%</span>
         </div>
-        <div class="progress-track"><div id="progressBar"></div></div>
+
+        <div class="progress-track">
+          <div id="progressBar"></div>
+        </div>
+
         <p id="progressText">Preparing analysis…</p>
       </section>
 
       <section id="errorBox" class="error-card hidden" role="alert"></section>
 
       <section id="results" class="results hidden">
-        <div class="results-header">
+        <header class="results-header">
           <div>
             <span class="results-kicker">DIRECTOR INTELLIGENCE</span>
             <h2 id="projectTitle">Cinematic Prompt Package</h2>
             <p id="projectSummary"></p>
           </div>
+
           <div class="result-actions">
-            <button id="copyAllBtn" class="secondary-btn" type="button">Copy All</button>
-            <button id="downloadBtn" class="secondary-btn" type="button">Download TXT</button>
+            <button id="copyAllBtn" class="secondary-btn" type="button">
+              Copy All
+            </button>
+            <button id="downloadBtn" class="secondary-btn" type="button">
+              Download TXT
+            </button>
           </div>
-        </div>
+        </header>
 
         <div id="sceneList"></div>
 
         <article class="master-card">
-          <div class="card-heading">
-            <span>MASTER RECREATION PROMPT</span>
-            <button class="mini-copy" data-copy-target="masterPrompt" type="button">Copy</button>
+          <div class="section-heading">
+            <span>MASTER DIRECTOR RECREATION PROMPT</span>
           </div>
           <p id="masterPrompt"></p>
         </article>
       </section>
 
-      <div id="bottomAd" class="wide-ad ad-card bottom-ad">
+      <section class="bottom-banner-section" aria-label="Sponsored advertisement">
         <span class="ad-label">Sponsored</span>
-        <a class="smartlink-ad" data-slot="bottom" href="#" target="_blank" rel="noopener sponsored">
-          <strong>Sponsored recommendation</strong>
-          <small>Advertisement</small>
-        </a>
-      </div>
+
+        <iframe
+          class="ad-320x50"
+          title="Sponsored advertisement"
+          scrolling="no"
+          frameborder="0"
+          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+          srcdoc='
+            <!doctype html>
+            <html>
+              <body style="margin:0;overflow:hidden;background:transparent;">
+                <script>
+                  atOptions = {
+                    "key":"78077bfae2cb2b4ca06a4bae0ef2cafa",
+                    "format":"iframe",
+                    "height":50,
+                    "width":320,
+                    "params":{}
+                  };
+                <\/script>
+                <script src="https://grannyreproof.com/78077bfae2cb2b4ca06a4bae0ef2cafa/invoke.js"><\/script>
+              </body>
+            </html>'>
+        </iframe>
+      </section>
 
       <section id="about" class="about">
-        <h3>Built for prompt recreation, not pixel-perfect copying.</h3>
+        <h3>Detailed creative blueprint, not pixel-perfect copying.</h3>
         <p>
-          Fast motion can contain details that automated video sampling misses.
-          Use the generated pack as a high-detail creative blueprint and refine it in ChatGPT.
+          The analysis describes observable cinematic choices and gives a
+          production-ready structure that can be pasted into ChatGPT for
+          further modification.
         </p>
       </section>
     </section>
 
-    <aside id="rightAd" class="side-ad ad-card">
-      <span class="ad-label">Sponsored</span>
-      <a class="smartlink-ad" data-slot="right" href="#" target="_blank" rel="noopener sponsored">
-        <strong>Explore</strong>
-        <small>Sponsored partner</small>
-      </a>
+    <aside class="desktop-ad-column" aria-label="Sponsored advertisement">
+      <div class="ad-frame-card">
+        <span class="ad-label">Sponsored</span>
+        <iframe
+          class="ad-300x250"
+          title="Sponsored advertisement"
+          scrolling="no"
+          frameborder="0"
+          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+          srcdoc='
+            <!doctype html>
+            <html>
+              <body style="margin:0;overflow:hidden;background:transparent;">
+                <script>
+                  atOptions = {
+                    "key":"9101c92ede496081064ac3a397e8a1ff",
+                    "format":"iframe",
+                    "height":250,
+                    "width":300,
+                    "params":{}
+                  };
+                <\/script>
+                <script src="https://grannyreproof.com/9101c92ede496081064ac3a397e8a1ff/invoke.js"><\/script>
+              </body>
+            </html>'>
+        </iframe>
+      </div>
     </aside>
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Adsterra/partner Social Bar -->
+  <script src="https://grannyreproof.com/2b/f0/41/2bf0415bd90df75eac2bcb0e6dc52f89.js"></script>
 
   <script src="config.js"></script>
   <script src="app.js"></script>
