@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Director AI converts short public YouTube videos into director-level recreation prompts.">
+  <title>Director AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="shell topbar">
+    <a class="brand" href="#" aria-label="Director AI home">
+      <span class="brand-logo">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="18"></circle>
+          <circle cx="24" cy="24" r="7"></circle>
+          <path d="M24 6v7M24 35v7M6 24h7M35 24h7"></path>
+        </svg>
+      </span>
+      <span>director<span class="brand-accent">AI</span></span>
+    </a>
+
+    <nav class="nav">
+      <a class="active" href="#studio">Studio</a>
+      <a href="#results">Prompts</a>
+      <a href="#about">About</a>
+    </nav>
+
+    <span class="free-badge">2 MIN • FREE MVP</span>
+  </header>
+
+  <main id="studio" class="shell layout">
+    <aside id="leftAd" class="side-ad ad-card">
+      <span class="ad-label">Sponsored</span>
+      <a class="smartlink-ad" data-slot="left" href="#" target="_blank" rel="noopener sponsored">
+        <strong>Discover</strong>
+        <small>Sponsored partner</small>
+      </a>
+    </aside>
+
+    <section class="main-column">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"><i></i> CINEMATIC INTELLIGENCE</span>
+          <h1>Turn any short video into a <span>director-level prompt.</span></h1>
+          <p>
+            Analyze visual language, camera movement, lens feel, lighting, sound,
+            voice-over and scene construction — then copy the master prompt into ChatGPT
+            to modify or rebuild the concept.
+          </p>
+
+          <div class="url-panel">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"></path>
+                <path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1"></path>
+              </svg>
+              <input
+                id="videoUrl"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                placeholder="Paste a public YouTube video URL..."
+                aria-label="Video URL">
+            </div>
+
+            <button id="analyzeBtn" type="button">
+              <span class="button-icon">▶</span>
+              <span>Analyze</span>
+            </button>
+          </div>
+
+          <div class="microcopy">
+            <span>Public YouTube</span>
+            <span>Up to 2 minutes</span>
+            <span>No login</span>
+            <span>Director prompt pack</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <svg class="lens" viewBox="0 0 620 620">
+            <defs>
+              <radialGradient id="core" cx="50%" cy="46%">
+                <stop offset="0%" stop-color="#cf4652" stop-opacity=".45"/>
+                <stop offset="25%" stop-color="#38151b"/>
+                <stop offset="62%" stop-color="#090d16"/>
+                <stop offset="100%" stop-color="#02040a"/>
+              </radialGradient>
+              <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3d4657"/>
+                <stop offset="45%" stop-color="#0d121d"/>
+                <stop offset="100%" stop-color="#292f3b"/>
+              </linearGradient>
+            </defs>
+            <circle class="orbit orbit-a" cx="310" cy="310" r="257"></circle>
+            <circle class="orbit orbit-b" cx="310" cy="310" r="221"></circle>
+            <circle cx="310" cy="310" r="177" fill="url(#rim)" stroke="#414958" stroke-width="5"></circle>
+            <circle cx="310" cy="310" r="143" fill="#050811" stroke="#181f2c" stroke-width="9"></circle>
+            <circle cx="310" cy="310" r="111" fill="url(#core)" stroke="#5c252c" stroke-width="2"></circle>
+            <ellipse cx="274" cy="267" rx="42" ry="20" fill="#fff" opacity=".07" transform="rotate(-28 274 267)"></ellipse>
+            <line class="scan" x1="202" y1="310" x2="418" y2="310"></line>
+            <text x="60" y="280">35MM OPTIC</text>
+            <text x="443" y="349">AI VISION</text>
+          </svg>
+        </div>
+      </section>
+
+      <div id="midAd" class="wide-ad ad-card">
+        <span class="ad-label">Sponsored</span>
+        <a class="smartlink-ad" data-slot="mid" href="#" target="_blank" rel="noopener sponsored">
+          <strong>Featured partner</strong>
+          <small>Advertisement</small>
+        </a>
+      </div>
+
+      <section id="progress" class="progress-card hidden" aria-live="polite">
+        <div class="progress-head">
+          <div>
+            <span class="spinner"></span>
+            <strong id="progressTitle">Analyzing video</strong>
+          </div>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+        <p id="progressText">Preparing analysis…</p>
+      </section>
+
+      <section id="errorBox" class="error-card hidden" role="alert"></section>
+
+      <section id="results" class="results hidden">
+        <div class="results-header">
+          <div>
+            <span class="results-kicker">DIRECTOR INTELLIGENCE</span>
+            <h2 id="projectTitle">Cinematic Prompt Package</h2>
+            <p id="projectSummary"></p>
+          </div>
+          <div class="result-actions">
+            <button id="copyAllBtn" class="secondary-btn" type="button">Copy All</button>
+            <button id="downloadBtn" class="secondary-btn" type="button">Download TXT</button>
+          </div>
+        </div>
+
+        <div id="sceneList"></div>
+
+        <article class="master-card">
+          <div class="card-heading">
+            <span>MASTER RECREATION PROMPT</span>
+            <button class="mini-copy" data-copy-target="masterPrompt" type="button">Copy</button>
+          </div>
+          <p id="masterPrompt"></p>
+        </article>
+      </section>
+
+      <div id="bottomAd" class="wide-ad ad-card bottom-ad">
+        <span class="ad-label">Sponsored</span>
+        <a class="smartlink-ad" data-slot="bottom" href="#" target="_blank" rel="noopener sponsored">
+          <strong>Sponsored recommendation</strong>
+          <small>Advertisement</small>
+        </a>
+      </div>
+
+      <section id="about" class="about">
+        <h3>Built for prompt recreation, not pixel-perfect copying.</h3>
+        <p>
+          Fast motion can contain details that automated video sampling misses.
+          Use the generated pack as a high-detail creative blueprint and refine it in ChatGPT.
+        </p>
+      </section>
+    </section>
+
+    <aside id="rightAd" class="side-ad ad-card">
+      <span class="ad-label">Sponsored</span>
+      <a class="smartlink-ad" data-slot="right" href="#" target="_blank" rel="noopener sponsored">
+        <strong>Explore</strong>
+        <small>Sponsored partner</small>
+      </a>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
