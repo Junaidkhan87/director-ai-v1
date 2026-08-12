@@ -1,6 +1,6 @@
 // /frontend/config.js
 window.DIRECTOR_AI_CONFIG = {
-  apiBaseUrl: "http://localhost:8000",
+  apiBaseUrl: "https://director-ai-api-production.up.railway.app",
   smartlinks: [
     "https://www.effectivecpmnetwork.com/hry5k5spp?key=ffdc02e308777269f72b3ef6fd4f979d",
     "https://www.effectivecpmnetwork.com/srar3rkxw?key=790b3e1d1c3d83b18bc0f7fbf0b1c828",
